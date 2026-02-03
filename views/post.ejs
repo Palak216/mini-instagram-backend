@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create post form</title>
+</head>
+<body>
+    <h2>Create Post</h2>
+
+<form action="/post" method="POST" enctype="multipart/form-data">
+  <textarea name="content" placeholder="Caption" required></textarea><br><br>
+  <input type="file" name="image" accept="image/*" /><br><br>
+  <button type="submit">Post</button>
+</form>
+
+<a href="/feed">Back</a>
+
+
+
+</body>
+</html>
