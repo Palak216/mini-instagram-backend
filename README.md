@@ -1,150 +1,64 @@
-\# Mini Instagram Backend
+# Mini Instagram Backend
 
-
-
-A backend clone of core Instagram features built with \*\*Node.js\*\*, \*\*Express\*\*, and \*\*EJS\*\*.  
-
-This project is being developed as a learning + open-source practice project with the goal of evolving into a production-ready backend (JWT auth, SQL, clean architecture).
-
-
+A simple Instagram clone backend built with **Node.js**, **Express**, and **EJS**, featuring **authentication, posts, likes, comments**, and **image upload via Cloudinary**.
 
 ---
 
+## ⚡ Features
 
-
-\## 🚀 Features (Current)
-
-
-
-\- User registration \& login (session-based)
-
-\- Create posts with image upload (Cloudinary)
-
-\- Feed with latest posts
-
-\- Like / unlike posts
-
-\- Comment on posts
-
-\- Delete own comments
-
-\- Authentication-protected routes
-
-
+- User registration & login with **bcrypt password hashing**
+- Create posts with **images** (Cloudinary integration)
+- Like/unlike posts
+- Comment & delete own comments
+- Simple feed displaying all posts
+- Ready for future upgrades: **JWT auth, SQL database, controllers/services, CRUD APIs, pagination**
 
 ---
 
+## 🛠️ Tech Stack
 
-
-\## 🛠 Tech Stack
-
-
-
-\- Node.js
-
-\- Express.js
-
-\- EJS
-
-\- Multer
-
-\- Cloudinary
-
-\- Express-session
-
-\- bcrypt
-
-
+- **Backend:** Node.js, Express
+- **Template Engine:** EJS
+- **File Upload:** Multer + Cloudinary
+- **Authentication:** express-session (temporary), bcrypt
+- **Database:** None yet (in-memory arrays; planning SQL)
+- **Environment Variables:** dotenv
 
 ---
 
+## ⚙️ Setup Instructions
 
-
-\## 📂 Project Structure
-
-
-
-mini-instagram-backend/
-
-├── routes/
-
-│ ├── auth.js
-
-│ └── posts.js
-
-├── views/
-
-│ ├── feed.ejs
-
-│ ├── login.ejs
-
-│ ├── post.ejs
-
-│ └── register.ejs
-
-├── config/
-
-│ └── cloudinary.js
-
-├── .env.example
-
-├── .gitignore
-
-├── index.js
-
-└── package.json
-
-
-
-
-
-\## ⚙️ Setup Instructions
-
-
-
-1\. Clone the repository
-
+1. **Clone the repository**
 ```bash
-
 git clone https://github.com/Palak216/mini-instagram-backend.git
-
 cd mini-instagram-backend
+Install dependencies
 
+npm install
+Configure environment variables
 
+Copy .env.example to .env:
 
-👉 This is \*\*Markdown\*\*, not terminal commands.
+# Windows
+copy .env.example .env
 
+# Mac / Linux
+cp .env.example .env
+Open .env and fill in your credentials:
 
+PORT=8080
+SESSION_SECRET=your_session_secret_here
+JWT_SECRET=your_jwt_secret_here
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=mini_instagram
+Run the server
 
-4\. Press \*\*Ctrl + S\*\* → Close Notepad
+node index.js
+Open in browser
 
-
-
----
-
-
-
-\## ❗ Important clarity
-
-
-
-| Thing | Where |
-
-|-----|------|
-
-| `git clone ...` | README (documentation) |
-
-| `npm install` | README |
-
-| `node index.js` | README |
-
-| `git add / commit` | Terminal |
-
-| `.env.example` content | Inside file |
-
-| `.gitignore` content | Inside file |
-
-
-
-
-
+Visit http://localhost:8080 to see your mini Instagram clone in action.
