@@ -7,20 +7,22 @@ const authRoutes = require("./routes/auth");
 const postsRoutes = require("./routes/posts");
 
 const app = express();
-const port = 8080;
-//middleware
+const port = process.env.PORT || 8080;
+
+// middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-//session
+
+// session
 app.use(
   session({
-    secret: "miniinsta_secret",
+    secret: process.env.SESSION_SECRET || "miniinsta_secret",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 
-// 🔥 serve uploaded images
+// serve uploaded images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.set("view engine", "ejs");
@@ -29,8 +31,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(authRoutes);
 app.use(postsRoutes);
 
-
-//port running
+// start server
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`✅ Server running on http://localhost:${port}`);
 });
