@@ -61,4 +61,4 @@ Run the server
 node index.js
 Open in browser
 
-Visit http://localhost:8080 to see your mini Instagram clone in action.
+Visit http://localhost:5000 to see your mini Instagram clone in action.
