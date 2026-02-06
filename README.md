@@ -1,4 +1,4 @@
-Mini Instagram Backend
+# Mini Instagram Backend
 
 A simple Instagram clone backend built with **Node.js**, **Express**, and **EJS**, featuring **authentication, posts, likes, comments**, and **image upload via Cloudinary**.
 
