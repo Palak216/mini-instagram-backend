@@ -2,16 +2,19 @@
 
 A simple Instagram clone backend built with **Node.js**, **Express**, and **EJS**, featuring **authentication, posts, likes, comments**, and **image upload via Cloudinary**.
 
+This project is built step-by-step to practice **real backend architecture**, refactoring, and Git workflows.
+
 ---
 
 ## ⚡ Features
 
 - User registration & login with **bcrypt password hashing**
 - Create posts with **images** (Cloudinary integration)
-- Like/unlike posts
+- Like / unlike posts
 - Comment & delete own comments
 - Simple feed displaying all posts
-- Ready for future upgrades: **JWT auth, SQL database, controllers/services, CRUD APIs, pagination**
+- Session-based authentication with protected routes
+- Clean MVC-style refactor (Day 3)
 
 ---
 
@@ -20,45 +23,104 @@ A simple Instagram clone backend built with **Node.js**, **Express**, and **EJS*
 - **Backend:** Node.js, Express
 - **Template Engine:** EJS
 - **File Upload:** Multer + Cloudinary
-- **Authentication:** express-session (temporary), bcrypt
-- **Database:** None yet (in-memory arrays; planning SQL)
+- **Authentication:** express-session, bcrypt
+- **Database:** None yet (in-memory arrays)
 - **Environment Variables:** dotenv
+- **Version Control:** Git & GitHub
+
+---
+
+## 📁 Project Structure (Day 3 – Refactored)
+
+mini-instagram-backend/
+│
+├── src/
+│ ├── controllers/ # Business logic for routes
+│ │ ├── authController.js
+│ │ └── postController.js
+│ │
+│ ├── routes/ # Express routes
+│ │ ├── auth.js
+│ │ └── posts.js
+│ │
+│ ├── middlewares/ # Custom middlewares
+│ │ └── authMiddleware.js
+│ │
+│ └── services/ # Future DB / service layer
+│
+├── config/
+│ └── cloudinary.js # Cloudinary configuration
+│
+├── views/ # EJS templates
+│ ├── feed.ejs
+│ ├── login.ejs
+│ ├── register.ejs
+│ └── post.ejs
+│
+├── uploads/ # Local uploads (gitignored)
+├── index.js # Application entry point
+├── .env.example # Environment variables template
+├── .gitignore
+├── package.json
+└── README.md
+
 
 ---
 
 ## ⚙️ Setup Instructions
 
-1. **Clone the repository**
+### 1️⃣ Clone the repository
 ```bash
 git clone https://github.com/Palak216/mini-instagram-backend.git
 cd mini-instagram-backend
-Install dependencies
-
+2️⃣ Install dependencies
 npm install
-Configure environment variables
-
+3️⃣ Configure environment variables
 Copy .env.example to .env:
 
-# Windows
-copy .env.example .env
+Windows
 
-# Mac / Linux
+copy .env.example .env
+Mac / Linux
+
 cp .env.example .env
-Open .env and fill in your credentials:
+Fill in your credentials inside .env:
 
 PORT=8080
-SESSION_SECRET=your_session_secret_here
-JWT_SECRET=your_jwt_secret_here
+SESSION_SECRET=your_session_secret
+JWT_SECRET=your_jwt_secret
+
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=mini_instagram
-Run the server
-
+4️⃣ Run the server
 node index.js
-Open in browser
+5️⃣ Open in browser
+Visit:
 
-Visit http://localhost:5000 to see your mini Instagram clone in action.
+http://localhost:5000;
+```
+---
+
+🔐 Day 4 – Authentication & Authorization 
+
+This milestone focuses on implementing secure authentication and
+authorization using **session-based authentication**.
+
+### ✅ Implemented
+- User registration and login flow
+- Password hashing using **bcrypt**
+- Session-based authentication using **express-session**
+- Authorization middleware to protect private routes
+- Protected `/feed` route (accessible only to authenticated users)
+- Redirect unauthenticated users to `/login`
+- MVC-aligned separation of routes, controllers, and middleware
+
+### 🛡 Security Decisions
+- JWT-based authentication is intentionally deferred to keep the
+  authentication layer simple and server-controlled at this stage.
+- Authorization logic is handled via reusable middleware.
+- Sessions are stored server-side to reduce token exposure risks.
+
+This structure mirrors real-world backend practices and prepares
+the project for future scalability (roles, JWT, database integration).
