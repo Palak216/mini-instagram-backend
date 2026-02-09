@@ -4,16 +4,7 @@ const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 const cloudinary = require("../config/cloudinary");
-const isLoggedIn = require("../middlewares/authMiddleware");
-
-const {
-  getPostPage,
-  createPost,
-  getFeed,
-  toggleLike,
-  addComment,
-  deleteComment
-} = require("../controllers/postController");
+const { getCreatePost, createPost } = require("../controllers/postController");
 
 const storage = new CloudinaryStorage({
   cloudinary,
@@ -25,11 +16,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-router.get("/post", isLoggedIn, getPostPage);
-router.post("/post", isLoggedIn, upload.single("image"), createPost);
-router.get("/feed", isLoggedIn, getFeed);
-router.post("/like/:id", isLoggedIn, toggleLike);
-router.post("/comment/:id", isLoggedIn, addComment);
-router.post("/delete-comment/:postId/:commentId", isLoggedIn, deleteComment);
+router.get("/post", getCreatePost);
+router.post("/post", upload.single("image"), createPost);
 
-module.exports = router; 
+module.exports = router;

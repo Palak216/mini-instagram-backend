@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>display posts on feed</title>
+</head>
+<body>
+    
+<h2>Welcome <%= user.username %></h2>
+<a href="/post">Create Post</a> |
+<a href="/logout">Logout</a>
+<hr>
+
+<% posts.slice().reverse().forEach(post => { %>
+  <div style="border:1px solid black; padding:10px; margin:10px;">
+    <strong><%= post.username %></strong>
+    <p><%= post.content %></p>
+  <% if (post.image_url) { %>
+  <img src="<%= post.image_url %>" width="200" />
+  <% } %>
+
+<form action="/like/<%= post.id %>" method="POST">
+  <button>
+    <%= post.likedByMe ? "💔 Unlike" : "❤️ Like" %>
+    (<%= post.likeCount %>)
+  </button>
+</form>
+
+   
+    <h4>Comments</h4>
+    <% post.comments.forEach(c => { %>
+      <p>
+        <strong><%= c.username %>:</strong> <%= c.text %>
+        <% if (c.username === user.username) { %>
+          <form action="/delete-comment/<%= post.id %>/<%= c.id %>" method="POST" style="display:inline;">
+            <button>❌</button>
+          </form>
+        <% } %>
+      </p>
+    <% }) %>
+
+    <form action="/comment/<%= post.id %>" method="POST">
+      <input type="text" name="text" required />
+      <button>Comment</button>
+    </form>
+  </div>
+<% }) %><h2>Welcome <%= user.username %></h2>
+
+<% posts.forEach(post => { %>
+  <div style="border:1px solid #ccc; margin:10px; padding:10px">
+    <p><b><%= post.username %></b></p>
+    <img src="<%= post.image_url %>" width="200"/>
+    <p><%= post.caption %></p>
+    <p>❤️ <%= post.likeCount %> | 💬 <%= post.commentCount %></p>
+  </div>
+<% }) %>
+
+
+
+
+</body>
+</html>

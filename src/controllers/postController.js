@@ -1,55 +1,31 @@
-const posts = [];
-let postId = 1;
+const db = require("../config/db");
 
-exports.getPostPage = (req, res) => {
+exports.getCreatePost = (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
   res.render("post");
 };
 
-exports.createPost = (req, res) => {
-  posts.push({
-    id: postId++,
-    username: req.session.user.username,
-    content: req.body.content,
-    image: req.file ? req.file.path : null,
-    likes: [],
-    comments: [],
-    createdAt: new Date()
-  });
+exports.createPost = async (req, res) => {
+  try {
+    const { caption } = req.body;
+    const imageUrl = req.file ? req.file.path : null;
 
-  res.redirect("/feed");
-};
+    // get user id
+    const [users] = await db.query(
+      "SELECT id FROM users WHERE email = ?",
+      [req.session.user.email]
+    );
 
-exports.getFeed = (req, res) => {
-  res.render("feed", { posts, user: req.session.user });
-};
+    const userId = users[0].id;
 
-exports.toggleLike = (req, res) => {
-  const post = posts.find(p => p.id == req.params.id);
-  const user = req.session.user.username;
+    await db.query(
+      "INSERT INTO posts (user_id, caption, image_url) VALUES (?, ?, ?)",
+      [userId, caption, imageUrl]
+    );
 
-  if (post.likes.includes(user)) {
-    post.likes = post.likes.filter(u => u !== user);
-  } else {
-    post.likes.push(user);
+    res.redirect("/feed");
+  } catch (err) {
+    console.error("CREATE POST ERROR:", err);
+    res.send("Post creation failed");
   }
-  res.redirect("/feed");
-};
-
-exports.addComment = (req, res) => {
-  const post = posts.find(p => p.id == req.params.id);
-  post.comments.push({
-    id: Date.now(),
-    username: req.session.user.username,
-    text: req.body.text
-  });
-  res.redirect("/feed");
-};
-
-exports.deleteComment = (req, res) => {
-  const post = posts.find(p => p.id == req.params.postId);
-  post.comments = post.comments.filter(
-    c => !(c.id == req.params.commentId &&
-           c.username === req.session.user.username)
-  );
-  res.redirect("/feed");
 };

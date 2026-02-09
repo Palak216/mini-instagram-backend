@@ -1,7 +1,8 @@
-module.exports = function isLoggedIn(req, res, next) {
-  if (!req.session.user) {
-    return res.redirect("/login");
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.user) {
+    return next();
   }
-  next();
-};
-const isLoggedIn = require("../middlewares/isloggedin");
+  return res.redirect("/login");
+}
+
+module.exports = { isAuthenticated };
