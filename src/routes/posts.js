@@ -15,8 +15,9 @@ const storage = new CloudinaryStorage({
 });
 
 const upload = multer({ storage });
+router.get("/feed", isloggedin, feedController);
 
-router.get("/post", getCreatePost);
-router.post("/post", upload.single("image"), createPost);
+// create post
+router.post("/posts", isloggedin, createPost);
 
 module.exports = router;

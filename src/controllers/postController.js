@@ -1,5 +1,6 @@
 const db = require("../config/db");
 
+
 exports.getCreatePost = (req, res) => {
   if (!req.session.user) return res.redirect("/login");
   res.render("post");
@@ -7,6 +8,10 @@ exports.getCreatePost = (req, res) => {
 
 exports.createPost = async (req, res) => {
   try {
+    if (!req.session.user) {
+      return res.redirect("/login");
+    }
+
     const { caption } = req.body;
     const imageUrl = req.file ? req.file.path : null;
 
@@ -15,6 +20,10 @@ exports.createPost = async (req, res) => {
       "SELECT id FROM users WHERE email = ?",
       [req.session.user.email]
     );
+
+    if (users.length === 0) {
+      return res.status(400).send("User not found");
+    }
 
     const userId = users[0].id;
 
@@ -26,6 +35,6 @@ exports.createPost = async (req, res) => {
     res.redirect("/feed");
   } catch (err) {
     console.error("CREATE POST ERROR:", err);
-    res.send("Post creation failed");
+    res.status(500).send("Post creation failed");
   }
 };

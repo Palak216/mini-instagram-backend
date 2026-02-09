@@ -8,6 +8,10 @@ const registerUser = async (req, res) => {
   if (existingUser) {
     return res.status(400).send("User already exists");
   }
+  if (!email || !password) {
+  return res.status(400).render('login', { error: 'All fields required' });
+}
+
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
