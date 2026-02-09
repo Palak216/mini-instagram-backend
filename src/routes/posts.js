@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
-const cloudinary = require("../../config/cloudinary");
+const cloudinary = require("../config/cloudinary");
 const isLoggedIn = require("../middlewares/authMiddleware");
 
 const {
@@ -32,4 +32,4 @@ router.post("/like/:id", isLoggedIn, toggleLike);
 router.post("/comment/:id", isLoggedIn, addComment);
 router.post("/delete-comment/:postId/:commentId", isLoggedIn, deleteComment);
 
-module.exports = router;
+module.exports = router; 
