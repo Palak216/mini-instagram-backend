@@ -102,17 +102,15 @@ http://localhost:5000;
 ```
 ---
 
-🔐 ## 📅 Day 4 – Authentication & Security (In Progress)
+🔐 ## 🔐 Day 4 – Authentication & Security
 
-- Implemented session-based authentication using express-session
-- User login & registration with password hashing (bcrypt)
-- Authentication middleware to protect routes
-- Refactored auth logic into controllers
-- Views moved into MVC structure
-- Prepared codebase for future JWT-based auth
+- Session-based authentication using express-session
+- Password hashing using bcrypt
+- Authorization middleware to protect private routes
+- Ownership checks for posts and comments
+- Basic input validation on auth and content routes
 
-⚠️ Note: JWT, role-based access control, and input validation
-will be added in upcoming iterations.
+> JWT-based authentication will be implemented in a later iteration.
 
 - Sessions are stored server-side to reduce token exposure risks.
 
