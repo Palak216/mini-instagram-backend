@@ -13,7 +13,7 @@ This project is built step-by-step to practice **real backend architecture**, re
 - Like / unlike posts
 - Comment & delete own comments
 - Simple feed displaying all posts
-- Session-based authentication (temporary)
+- Session-based authentication with protected routes
 - Clean MVC-style refactor (Day 3)
 
 ---
@@ -99,3 +99,28 @@ node index.js
 Visit:
 
 http://localhost:5000;
+```
+---
+
+🔐 Day 4 – Authentication & Authorization 
+
+This milestone focuses on implementing secure authentication and
+authorization using **session-based authentication**.
+
+### ✅ Implemented
+- User registration and login flow
+- Password hashing using **bcrypt**
+- Session-based authentication using **express-session**
+- Authorization middleware to protect private routes
+- Protected `/feed` route (accessible only to authenticated users)
+- Redirect unauthenticated users to `/login`
+- MVC-aligned separation of routes, controllers, and middleware
+
+### 🛡 Security Decisions
+- JWT-based authentication is intentionally deferred to keep the
+  authentication layer simple and server-controlled at this stage.
+- Authorization logic is handled via reusable middleware.
+- Sessions are stored server-side to reduce token exposure risks.
+
+This structure mirrors real-world backend practices and prepares
+the project for future scalability (roles, JWT, database integration).
