@@ -102,24 +102,18 @@ http://localhost:5000;
 ```
 ---
 
-🔐 Day 4 – Authentication & Authorization 
+🔐 ## 📅 Day 4 – Authentication & Security (In Progress)
 
-This milestone focuses on implementing secure authentication and
-authorization using **session-based authentication**.
+- Implemented session-based authentication using express-session
+- User login & registration with password hashing (bcrypt)
+- Authentication middleware to protect routes
+- Refactored auth logic into controllers
+- Views moved into MVC structure
+- Prepared codebase for future JWT-based auth
 
-### ✅ Implemented
-- User registration and login flow
-- Password hashing using **bcrypt**
-- Session-based authentication using **express-session**
-- Authorization middleware to protect private routes
-- Protected `/feed` route (accessible only to authenticated users)
-- Redirect unauthenticated users to `/login`
-- MVC-aligned separation of routes, controllers, and middleware
+⚠️ Note: JWT, role-based access control, and input validation
+will be added in upcoming iterations.
 
-### 🛡 Security Decisions
-- JWT-based authentication is intentionally deferred to keep the
-  authentication layer simple and server-controlled at this stage.
-- Authorization logic is handled via reusable middleware.
 - Sessions are stored server-side to reduce token exposure risks.
 
 This structure mirrors real-world backend practices and prepares
