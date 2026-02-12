@@ -1,8 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const CommentController = require('../controllers/commentController');
+const db = require("../config/db");
+const isLoggedIn = require("../middlewares/authmiddleware");
 
-// DELETE comment
-router.delete('/:id', CommentController.deleteComment); // ✅ must be a function
+router.post("/comments/:postId", isLoggedIn, async (req, res) => {
+  const { text } = req.body;
+  const postId = req.params.postId;
+  const userId = req.session.user.id;
+
+  await db.query(
+    "INSERT INTO comments (text, user_id, post_id) VALUES (?, ?, ?)",
+    [text, userId, postId]
+  );
+
+  res.redirect("/feed");
+});
 
 module.exports = router;

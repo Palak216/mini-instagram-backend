@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const { isAuthenticated } = require("../middlewares/isloggedin");
+const isLoggedIn = require("../middlewares/authmiddleware");
 const { getFeed } = require("../controllers/feedController");
 
-router.get("/feed", isAuthenticated, getFeed);
+router.get("/feed", isLoggedIn, getFeed);
 
 module.exports = router;

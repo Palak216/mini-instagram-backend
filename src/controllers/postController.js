@@ -1,10 +1,9 @@
 const db = require("../config/db");
 
-
 exports.getCreatePost = (req, res) => {
-  if (!req.session.user) return res.redirect("/login");
   res.render("post");
 };
+
 
 exports.createPost = async (req, res) => {
   try {
