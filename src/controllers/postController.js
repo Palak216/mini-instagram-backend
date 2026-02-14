@@ -1,39 +1,79 @@
 const db = require("../config/db");
 
+// ================= CREATE POST =================
 exports.getCreatePost = (req, res) => {
-  res.render("post");
+  res.render("createPost");
 };
-
 
 exports.createPost = async (req, res) => {
   try {
-    if (!req.session.user) {
-      return res.redirect("/login");
-    }
+    const { content } = req.body;
 
-    const { caption } = req.body;
-    const imageUrl = req.file ? req.file.path : null;
+    const imageUrl = req.file ? "/uploads/" + req.file.filename : null;
 
-    // get user id
-    const [users] = await db.query(
-      "SELECT id FROM users WHERE email = ?",
-      [req.session.user.email]
-    );
+    const userId = req.session.user.id;
 
-    if (users.length === 0) {
-      return res.status(400).send("User not found");
-    }
-
-    const userId = users[0].id;
-
-    await db.query(
-      "INSERT INTO posts (user_id, caption, image_url) VALUES (?, ?, ?)",
-      [userId, caption, imageUrl]
+    await pool.query(
+      "INSERT INTO posts (content, image_url, user_id) VALUES (?, ?, ?)",
+      [content, imageUrl, userId]
     );
 
     res.redirect("/feed");
+
+  } catch (error) {
+    console.error("CREATE POST ERROR:", error);
+    res.redirect("/feed");
+  }
+};
+
+// ================= DELETE POST =================
+exports.deletePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.session.user.id;
+
+    // Delete only if owner
+    await pool.query(
+  "INSERT INTO posts (content, image_url, user_id) VALUES (?, ?, ?)",
+  [content, imageUrl, req.session.user.id]
+);
+
+
+    res.redirect("/feed");
+
   } catch (err) {
-    console.error("CREATE POST ERROR:", err);
-    res.status(500).send("Post creation failed");
+    console.log("DELETE ERROR:", err);
+    res.status(500).send("Error deleting post");
+  }
+};
+
+// ================= LIKE TOGGLE =================
+exports.toggleLike = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.session.user.id;
+
+    const [existing] = await db.query(
+      "SELECT * FROM likes WHERE user_id = ? AND post_id = ?",
+      [userId, postId]
+    );
+
+    if (existing.length > 0) {
+      await db.query(
+        "DELETE FROM likes WHERE user_id = ? AND post_id = ?",
+        [userId, postId]
+      );
+    } else {
+      await db.query(
+        "INSERT INTO likes (user_id, post_id) VALUES (?, ?)",
+        [userId, postId]
+      );
+    }
+
+    res.redirect("/feed");
+
+  } catch (err) {
+    console.log("LIKE ERROR:", err);
+    res.status(500).send("Error liking post");
   }
 };

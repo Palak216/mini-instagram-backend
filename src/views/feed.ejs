@@ -1,34 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>display posts on feed</title>
+  <title>Feed</title>
 </head>
 <body>
-    
-<h2>Welcome <%= user.username %></h2>
+
+<% if (user) { %>
+  <h2>Welcome <%= user.username %></h2>
+<% } %>
+
 <a href="/post">Create Post</a> |
 <a href="/logout">Logout</a>
+
 <hr>
 
 <% posts.forEach(post => { %>
 
-  <div>
-    <h3><%= post.username %></h3>
-    <img src="<%= post.image_url %>" width="200"/>
-    <p><%= post.caption %></p>
+  <div style="border:1px solid black; padding:10px; margin-bottom:10px;">
 
-    <h4>Add Comment:</h4>
-    <form action="/comments/<%= post.id %>" method="POST">
-      <input type="text" name="text" placeholder="Add comment" required>
-      <button type="submit">Comment</button>
+    <h3><%= post.username %></h3>
+    <p><%= post.content %></p>
+
+    <% if (post.image_url) { %>
+      <img src="<%= post.image_url %>" width="200">
+    <% } %>
+
+    <p>❤️ <%= post.like_count %></p>
+
+    <!-- LIKE BUTTON -->
+    <form action="/like/<%= post.id %>" method="POST">
+      <button type="submit">Like</button>
     </form>
 
-    <hr>
+    <!-- DELETE BUTTON (ONLY OWNER) -->
+    <% if (user && user.id === post.user_id) { %>
+      <form action="/delete/<%= post.id %>" method="POST">
+        <button type="submit">Delete</button>
+      </form>
+    <% } %>
+
   </div>
 
-<% }) %>
+<% }); %>
 
 </body>
 </html>
